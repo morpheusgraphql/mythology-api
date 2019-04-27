@@ -2,7 +2,7 @@ provider:
   name: aws
   stage: test
   region: eu-central-1
-  runtime: haskell
+  runtime: nodejs8.10
 
 plugins:
   - serverless-domain-manager
