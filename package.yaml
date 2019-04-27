@@ -37,6 +37,15 @@ executables:
       - -with-rtsopts=-N
     dependencies:
       - mythology-api
+  page:
+    main: Main.hs
+    source-dirs: client
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - mythology-api
 
 tests:
   haskell-bff-test:

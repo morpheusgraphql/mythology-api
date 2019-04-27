@@ -6,10 +6,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "jsx": "react",
-    "typeRoots": [
-      "node_modules/@types",
-      "../@types"
-    ],
+    "typeRoots": [],
     "lib": [
       "es5",
       "es2015",

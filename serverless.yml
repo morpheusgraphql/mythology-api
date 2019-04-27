@@ -31,7 +31,11 @@ custom:
     createRoute53Record: true
 
 functions:
-  api:
-    handler: ./mythology-api.graphql
+  graphql:
+    handler: mythology-api.graphql
     events:
-      - http: POST /graphql
+      - http: POST /
+  frontend:
+    handler: mythology-api.page
+    events:
+      - http: GET /
