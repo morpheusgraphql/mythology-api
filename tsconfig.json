@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "maxNodeModuleJsDepth": 0,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "jsx": "react",
+    "typeRoots": [
+      "node_modules/@types",
+      "../@types"
+    ],
+    "lib": [
+      "es5",
+      "es2015",
+      "dom"
+    ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,6 +1,6 @@
 module.exports = {
     entry: {
-        app: "./src/Client/index.js"
+        app: "./src/Client"
     },
     output: {
         filename: "public/[name].js"

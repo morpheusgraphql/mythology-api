@@ -81,19 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/Client/index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/Client/index.tsx");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/Client/index.js":
-/*!*****************************!*\
-  !*** ./src/Client/index.js ***!
-  \*****************************/
+/***/ "./src/Client/index.tsx":
+/*!******************************!*\
+  !*** ./src/Client/index.tsx ***!
+  \******************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-throw new Error("Module parse failed: Unexpected token (16:17)\nYou may need an appropriate loader to handle this file type.\n| }\n| \n> ReactDOM.render( < GraphiQL fetcher = {\n|             graphQLFetcher\n|         }");
+throw new Error("Module build failed (from ./node_modules/ts-loader/index.js):\nError: \u001b[31merror while parsing tsconfig.json\u001b[39m\n    at Object.loader (/Users/daviti/github/morpheus-projects/mythology-api/node_modules/ts-loader/dist/index.js:18:18)");
 
 /***/ })
 
