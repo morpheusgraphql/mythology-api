@@ -4,3 +4,4 @@ mythology-api.cabal
 node_modules/
 graphql
 **/.DS_Store
+.serverless/
