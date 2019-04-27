@@ -12,7 +12,18 @@ module.exports = {
     resolve: {
         extensions: [".js", "jsx", ".ts", ".tsx"]
     },
-
+    module: {
+        rules: [{
+            test: /\.tsx?$/,
+            use: {
+                loader: "ts-loader",
+                options: {
+                    transpileOnly: true
+                }
+            },
+            exclude: /node_modules/
+        }]
+    },
     externals: {
         'react': 'react',
         'react-dom': 'react-dom',
