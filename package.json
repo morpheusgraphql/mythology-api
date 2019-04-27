@@ -14,6 +14,6 @@
         "serverless": "1.33.2",
         "serverless-offline": "3.30.0",
         "serverless-domain-manager": "2.6.6",
-        "serverless-haskell": "0.7.5"
+        "serverless-haskell": "0.6.1"
     }
 }
