@@ -1,0 +1,19 @@
+{
+    "name": "mythology-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "hs:build": "stack build",
+        "hs:watch": "stack build --file-watch"
+    },
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "serverless": "1.33.2",
+        "serverless-offline": "3.30.0",
+        "serverless-domain-manager": "2.6.6",
+        "serverless-haskell": "0.7.5"
+    }
+}

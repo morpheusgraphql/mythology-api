@@ -1,0 +1,4 @@
+.stack-work/
+package-lock.json
+mythology-api.cabal
+node_modules/

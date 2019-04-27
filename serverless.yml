@@ -1,0 +1,43 @@
+provider:
+  name: aws
+  stage: test
+  region: eu-central-1
+  runtime: nodejs8.10
+
+plugins:
+  - serverless-domain-manager
+  - serverless-haskell
+  - serverless-offline
+
+service:
+  name: "morpheus-graphql-mythology-api-${self:provider.stage}"
+  domain: "api.morpheusgraphql"
+
+package:
+  excludeDevDependencies: false
+  exclude:
+    - ./**
+    - /**/**
+    - .local/**
+    - packages/**
+    - node_modules/**
+  include:
+    - packages/webapp/dist/**
+    - packages/bff/dist/**
+    - packages/bff/database/**
+    - packages/icons/dist/**
+
+custom:
+  serverless-offline:
+    resourceRoutes: true
+    port: 3000
+  customDomain:
+    domainName: "${self:service.domain}"
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+
+functions:
+  api:
+    handler: ./mythology-api.graphql
+    events:
+      - http: POST /graphql

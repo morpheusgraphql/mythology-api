@@ -1,0 +1,7 @@
+resolver: nightly-2018-09-28
+
+packages:
+  - .
+
+extra-deps:
+  - morpheus-graphql-0.0.1

@@ -1,0 +1,49 @@
+name: mythology-api
+version: 0.1.0.0
+github: "morpheusgraphql/mythology-api"
+license: BSD3
+author: "Daviti Nalchevanidze"
+maintainer: "d.nalchevanidze@gmail.com"
+copyright: "(c) 2019 Daviti Nalchevanidze"
+
+extra-source-files:
+  - README.md
+  - ChangeLog.md
+
+description: haskell backend
+
+dependencies:
+  - base >= 4.7 && < 5
+  - serverless-haskell
+  - aeson
+  - lens
+  - bytestring
+  - containers >= 0.4.2.1 && < 0.7
+  - split
+  - text
+  - morpheus-graphql
+
+library:
+  source-dirs: src
+
+executables:
+  graphql:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - mythology-api
+
+tests:
+  haskell-bff-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    dependencies:
+      - mythology-api
