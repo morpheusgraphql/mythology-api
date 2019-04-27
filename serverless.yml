@@ -11,7 +11,7 @@ plugins:
 
 service:
   name: "morpheus-graphql-mythology-api-${self:provider.stage}"
-  domain: "api.morpheusgraphql"
+  domain: "api.morpheusgraphql.com"
 
 package:
   excludeDevDependencies: false
