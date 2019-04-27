@@ -16,16 +16,10 @@ service:
 package:
   excludeDevDependencies: false
   exclude:
-    - ./**
-    - /**/**
-    - .local/**
-    - packages/**
+    - app/**
+    - src/**
+    - .stack-work/**
     - node_modules/**
-  include:
-    - packages/webapp/dist/**
-    - packages/bff/dist/**
-    - packages/bff/database/**
-    - packages/icons/dist/**
 
 custom:
   serverless-offline:
