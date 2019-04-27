@@ -7,6 +7,7 @@ provider:
 plugins:
   - serverless-domain-manager
   - serverless-haskell
+  - serverless-apigw-binary
   - serverless-offline
 
 service:
@@ -22,6 +23,9 @@ package:
     - node_modules/**
 
 custom:
+  apigwBinary:
+    types:
+      - "*/*"
   serverless-offline:
     resourceRoutes: true
     port: 3000
@@ -38,4 +42,9 @@ functions:
   frontend:
     handler: mythology-api.page
     events:
-      - http: GET /
+      - http:
+          method: GET
+          path: /
+          response:
+            headers:
+              Content-Type: "text/html"

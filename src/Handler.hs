@@ -36,7 +36,8 @@ client :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
 client _ =
     toResponce
         <$> (return $ T.concat
-                [ "<html lang=\"en\">"
+                [ "<!DOCTYPE html>"
+                , "<html lang=\"en\">"
                 , "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/></head>"
                 , "<body> <div id=\"app\"></div></body>"
                 , "<script crossorigin src=\"/client.js\"></script>"

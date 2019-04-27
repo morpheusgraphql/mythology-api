@@ -23,6 +23,7 @@
         "serverless": "1.33.2",
         "serverless-domain-manager": "2.6.6",
         "serverless-haskell": "0.6.1",
-        "serverless-offline": "3.30.0"
+        "serverless-offline": "3.30.0",
+        "serverless-apigw-binary": "0.4.4"
     }
 }
