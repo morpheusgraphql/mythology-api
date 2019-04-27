@@ -7,16 +7,19 @@
 
 module Mythology.Schema.Query
   ( resolveQuery
-  ) where
+  )
+where
 
-import qualified Data.ByteString.Lazy.Char8 as B
 
-import           Data.Morpheus              (interpreter)
-import           Data.Morpheus.Kind         (GQLArgs, GQLKind (..), GQLObject, GQLQuery)
-import           Data.Morpheus.Wrapper      ((::->) (..), GQLRoot (..))
-import           Data.Text                  (Text)
-import           Data.Typeable              (Typeable)
-import           GHC.Generics               (Generic)
+import           Data.Morpheus.Kind             ( GQLArgs
+                                                , GQLKind(..)
+                                                , GQLObject
+                                                , GQLQuery
+                                                )
+import           Data.Morpheus.Wrapper          ( (::->)(..) )
+import           Data.Text                      ( Text )
+import           Data.Typeable                  ( Typeable )
+import           GHC.Generics                   ( Generic )
 
 data Query = Query
   { deity :: DeityArgs ::-> Deity
@@ -39,7 +42,8 @@ resolveDeity :: DeityArgs ::-> Deity
 resolveDeity = Resolver $ \args -> dbDeity (name args) (mythology args)
 
 dbDeity :: Text -> Maybe Text -> IO (Either String Deity)
-dbDeity _ _ = return $ Right $ Deity {fullName = "Morpheus", power = Just "Shapeshifting"}
+dbDeity _ _ =
+  return $ Right $ Deity { fullName = "Morpheus", power = Just "Shapeshifting" }
 
 resolveQuery :: Query
-resolveQuery =  Query {deity = resolveDeity}
+resolveQuery = Query { deity = resolveDeity }
