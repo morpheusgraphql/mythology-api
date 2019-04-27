@@ -3,3 +3,4 @@ package-lock.json
 mythology-api.cabal
 node_modules/
 graphql
+**/.DS_Store
