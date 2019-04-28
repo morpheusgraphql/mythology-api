@@ -7,7 +7,6 @@ provider:
 plugins:
   - serverless-domain-manager
   - serverless-haskell
-  - serverless-apigw-binary
   - serverless-offline
 
 service:
@@ -23,9 +22,6 @@ package:
     - node_modules/**
 
 custom:
-  apigwBinary:
-    types:
-      - "*/*"
   serverless-offline:
     resourceRoutes: true
     port: 3000
@@ -40,4 +36,3 @@ functions:
     events:
       - http: POST /
       - http: GET /
-      - http: GET /app.js
