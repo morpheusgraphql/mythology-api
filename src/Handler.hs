@@ -59,7 +59,7 @@ route
     -> APIGatewayProxyRequest Text
     -> IO (APIGatewayProxyResponse Text)
 route "/app.js" _ =
-    customType "text/javascript" <$> (TIO.readFile "assets/app.js")
+    customType "text/javascript" <$> TIO.readFile "assets/app.js"
 route "/" x = api method x where method = x ^. agprqHttpMethod
 route _   _ = customType "text/html" <$> return "error path"
 
