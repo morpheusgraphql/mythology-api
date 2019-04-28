@@ -11,6 +11,7 @@ import           AWSLambda.Events.APIGateway    ( APIGatewayProxyRequest
                                                 , requestBody
                                                 , APIGatewayProxyResponse(..)
                                                 , agprqHttpMethod
+                                                , agprqPath
                                                 )
 import           Control.Lens                   ( (^.)
                                                 , (&)
@@ -18,12 +19,11 @@ import           Control.Lens                   ( (^.)
                                                 )
 import           Mythology.API                  ( mythologyApi )
 import           Data.Maybe                     ( fromMaybe )
-import           Data.Text
-import qualified Data.Text                     as T
-                                                ( concat )
+import           Data.Text                      ( Text )
 import           Data.Aeson.TextValue
 import qualified Data.Text.IO                  as TIO
                                                 ( readFile )
+import           Data.ByteString                ( ByteString )
 
 toResponce :: Text -> APIGatewayProxyResponse Text
 toResponce obj = responseOK & responseBody ?~ obj
@@ -35,20 +35,34 @@ graphql :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
 graphql inputString = toResponce <$> (mythologyApi $ toQuery inputString)
 
 
-toHTML :: Text -> (APIGatewayProxyResponse Text)
-toHTML body = APIGatewayProxyResponse
+customType :: ByteString -> Text -> (APIGatewayProxyResponse Text)
+customType value body = APIGatewayProxyResponse
     { _agprsStatusCode = 200
-    , _agprsHeaders    = mempty <> [("content-type", "text/html")]
+    , _agprsHeaders    = mempty <> [("content-type", value)]
     , _agprsBody       = (pure (TextValue body))
     }
 
 htmlClient :: IO (APIGatewayProxyResponse Text)
-htmlClient = toHTML <$> (TIO.readFile "assets/index.html")
+htmlClient = customType "text/html" <$> (TIO.readFile "assets/index.html")
+
+api
+    :: ByteString
+    -> APIGatewayProxyRequest Text
+    -> IO (APIGatewayProxyResponse Text)
+api "GET"  _       = htmlClient
+api "POST" request = graphql request
+api _      _       = customType "text/html" <$> return "Not allowed Method"
+
+
+route
+    :: ByteString
+    -> APIGatewayProxyRequest Text
+    -> IO (APIGatewayProxyResponse Text)
+route "/app.js" _ =
+    customType "text/javascript" <$> (TIO.readFile "assets/app.js")
+route "/" x = api method x where method = x ^. agprqHttpMethod
+route _   _ = customType "text/html" <$> return "error path"
 
 handler :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
-handler request = case method of
-    "GET"  -> htmlClient
-    "POST" -> graphql request
-    _      -> toHTML <$> return "Not allowed Method"
-    where method = request ^. agprqHttpMethod
+handler request = route path request where path = request ^. agprqPath
 

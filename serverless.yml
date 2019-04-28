@@ -40,3 +40,4 @@ functions:
     events:
       - http: POST /
       - http: GET /
+      - http: GET /app.js
