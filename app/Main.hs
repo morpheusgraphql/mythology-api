@@ -3,7 +3,7 @@ module Main
     )
 where
 
-import           Handler                        ( graphql )
+import           Handler                        ( client )
 import           AWSLambda.Events.APIGateway    ( apiGatewayMain )
 
-main = apiGatewayMain graphql
+main = apiGatewayMain client

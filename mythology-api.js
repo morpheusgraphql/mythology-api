@@ -59,4 +59,3 @@ function wrapper(options) {
 //   arguments: ['--arg1', '--arg2'],
 // });
 exports['graphql'] = wrapper({"executable":"graphql","arguments":[]});
-exports['page'] = wrapper({"executable":"page","arguments":[]});

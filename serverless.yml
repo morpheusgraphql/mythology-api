@@ -39,12 +39,4 @@ functions:
     handler: mythology-api.graphql
     events:
       - http: POST /
-  frontend:
-    handler: mythology-api.page
-    events:
-      - http:
-          method: GET
-          path: /
-          response:
-            headers:
-              Content-Type: "text/html"
+      - http: GET /

@@ -11,6 +11,7 @@ import           AWSLambda.Events.APIGateway    ( APIGatewayProxyRequest
                                                 , responseBody
                                                 , requestBody
                                                 , APIGatewayProxyResponse(..)
+                                                , agprqHttpMethod
                                                 )
 import           Control.Lens                   ( (^.)
                                                 , (&)
@@ -40,15 +41,23 @@ toHTML body = APIGatewayProxyResponse
     , _agprsBody       = (pure (TextValue body))
     }
 
+--method :: APIGatewayProxyRequest Text -> ByteString
+
+
 client :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
-client _ =
-    toHTML
-        <$> (return $ T.concat
-                [ "<!DOCTYPE html>"
-                , "<html lang=\"en\">"
-                , "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/></head>"
-                , "<body> <div id=\"app\"></div></body>"
-                , "<script crossorigin src=\"/client.js\"></script>"
-                , "</html>"
-                ]
-            )
+client request = case method of
+    "GET" ->
+        toHTML
+            <$> (return $ T.concat
+                    [ "<!DOCTYPE html>"
+                    , "<html lang=\"en\">"
+                    , "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/></head>"
+                    , "<body> <div id=\"app\"></div></body>"
+                    , "<script crossorigin src=\"/client.js\"></script>"
+                    , "</html>"
+                    ]
+                )
+    "POST" -> toResponce <$> (mythologyApi $ toQuery request)
+    _      -> toHTML <$> return "Not allowed Method"
+    where method = request ^. agprqHttpMethod
+
