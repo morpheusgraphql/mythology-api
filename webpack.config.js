@@ -4,7 +4,6 @@ module.exports = {
         path: __dirname + "/assets",
         filename: "app.js"
     },
-    devtool: "source-map",
     resolveLoader: {
         moduleExtensions: ["-loader"]
     },
@@ -21,5 +20,5 @@ module.exports = {
             exclude: /node_modules/,
         }]
     },
-    mode: "development"
+    mode: 'production',
 };
