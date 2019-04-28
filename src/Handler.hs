@@ -7,10 +7,10 @@ module Handler
 where
 
 import           AWSLambda.Events.APIGateway    ( APIGatewayProxyRequest
-                                                , APIGatewayProxyResponse
                                                 , responseOK
                                                 , responseBody
                                                 , requestBody
+                                                , APIGatewayProxyResponse(..)
                                                 )
 import           Control.Lens                   ( (^.)
                                                 , (&)
@@ -21,6 +21,7 @@ import           Data.Maybe                     ( fromMaybe )
 import           Data.Text
 import qualified Data.Text                     as T
                                                 ( concat )
+import           Data.Aeson.TextValue
 
 toResponce :: Text -> APIGatewayProxyResponse Text
 toResponce obj = responseOK & responseBody ?~ obj
@@ -32,9 +33,16 @@ graphql :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
 graphql inputString = toResponce <$> (mythologyApi $ toQuery inputString)
 
 
+toHTML :: Text -> (APIGatewayProxyResponse Text)
+toHTML body = APIGatewayProxyResponse
+    { _agprsStatusCode = 200
+    , _agprsHeaders    = mempty <> [("content-type", "text/html")]
+    , _agprsBody       = (pure (TextValue body))
+    }
+
 client :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
 client _ =
-    toResponce
+    toHTML
         <$> (return $ T.concat
                 [ "<!DOCTYPE html>"
                 , "<html lang=\"en\">"
