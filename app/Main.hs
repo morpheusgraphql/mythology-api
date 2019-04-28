@@ -3,7 +3,8 @@ module Main
     )
 where
 
-import           Handler                        ( client )
+import           Handler                        ( handler )
 import           AWSLambda.Events.APIGateway    ( apiGatewayMain )
 
-main = apiGatewayMain client
+main :: IO ()
+main = apiGatewayMain handler

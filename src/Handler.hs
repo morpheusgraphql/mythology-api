@@ -22,6 +22,8 @@ import           Data.Text
 import qualified Data.Text                     as T
                                                 ( concat )
 import           Data.Aeson.TextValue
+import qualified Data.Text.IO                  as TIO
+                                                ( readFile )
 
 toResponce :: Text -> APIGatewayProxyResponse Text
 toResponce obj = responseOK & responseBody ?~ obj
@@ -41,17 +43,7 @@ toHTML body = APIGatewayProxyResponse
     }
 
 htmlClient :: IO (APIGatewayProxyResponse Text)
-htmlClient =
-    toHTML
-        <$> (return $ T.concat
-                [ "<!DOCTYPE html>"
-                , "<html lang=\"en\">"
-                , "<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/></head>"
-                , "<body> <div id=\"app\"></div></body>"
-                , "<script crossorigin src=\"/client.js\"></script>"
-                , "</html>"
-                ]
-            )
+htmlClient = toHTML <$> (TIO.readFile "assets/index.html")
 
 handler :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
 handler request = case method of
