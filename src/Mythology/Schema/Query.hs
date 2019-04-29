@@ -10,7 +10,6 @@ module Mythology.Schema.Query
   )
 where
 
-
 import           Data.Morpheus.Kind             ( GQLArgs
                                                 , GQLKind(..)
                                                 , GQLObject
@@ -20,13 +19,14 @@ import           Data.Morpheus.Wrapper          ( (::->)(..) )
 import           Data.Text                      ( Text )
 import           Data.Typeable                  ( Typeable )
 import           GHC.Generics                   ( Generic )
-import           Files.Files                    ( getJson )
-import           Data.Map                       ( Map )
-import qualified Data.Map                      as M
-                                                ( lookup )
+import           Files.Files                    ( allDBEntry
+                                                , lookupDBEntry
+                                                )
 import           Data.Aeson                     ( FromJSON )
+
 data Query = Query
-  { deity :: DeityArgs ::-> Deity
+  { deity :: DeityArgs ::-> Deity,
+    deities :: ()      ::-> [Deity]
   } deriving (Generic, GQLQuery)
 
 data Deity = Deity
@@ -44,32 +44,11 @@ data DeityArgs = DeityArgs
   , mythology :: Maybe Text -- Optional Argument
   } deriving (Generic, GQLArgs)
 
-
 resolveDeity :: DeityArgs ::-> Deity
-resolveDeity = Resolver $ \args -> dbDeity (name args) (mythology args)
+resolveDeity = Resolver $ \args -> lookupDBEntry (name args)
 
-lookupNote :: Text -> Map Text a -> Either String a
-lookupNote key' lib' = case M.lookup key' lib' of
-  Nothing -> Left "Deity Does Not Exists"
-  Just x  -> Right x
-
-openDB :: IO (Either String (Map Text Deity))
-openDB = getJson "greekMythology"
-
-lookupDB :: Text -> IO (Either String Deity)
-lookupDB key' = do
-  lib' <- openDB
-  return (lib' >>= lookupNote key')
-
-
-dbDeity :: Text -> Maybe Text -> IO (Either String Deity)
-dbDeity key' _ = lookupDB key'
-  --return $ Right $ Deity
-  --{ fullName = "Morpheus"
-  --, power    = Just "Shapeshifting"
-  --, role     = "god of Dreams"
-  --, governs  = Just "Dreams"
- -- }
+resolveDeities :: () ::-> [Deity]
+resolveDeities = Resolver $ const allDBEntry
 
 resolveQuery :: Query
-resolveQuery = Query { deity = resolveDeity }
+resolveQuery = Query { deity = resolveDeity, deities = resolveDeities }
