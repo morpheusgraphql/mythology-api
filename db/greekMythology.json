@@ -1,20 +1,20 @@
 {
     "morpheus": {
-        "name": "Morpheus",
+        "fullName": "Morpheus",
         "mythology": "Greek",
         "power": "Shape shifting",
         "role": "god of Dreams",
         "governs": "Dreams"
     },
     "zeus": {
-        "name": "Zeus",
+        "fullName": "Zeus",
         "mythology": "Greek",
         "power": "thunder",
         "role": "King of the gods",
         "governs": "Olympus"
     },
     "poseidon": {
-        "name": "Poseidon",
+        "fullName": "Poseidon",
         "mythology": "Greek",
         "power": "Storm",
         "role": "King of the See",

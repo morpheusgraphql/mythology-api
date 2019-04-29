@@ -17,3 +17,5 @@ jsonPath name = (dbFolder ++ name ++ ".json")
 
 getJson :: FromJSON a => FilePath -> IO (Either String a)
 getJson path = eitherDecode <$> readFile (jsonPath path)
+
+
