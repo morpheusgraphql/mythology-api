@@ -1,3 +1,3 @@
 # Mythology API
 
-## GraphQL APIs of ancient mythology build with Morpheus GraphQL
+## GraphQL APIs of ancient Greek mythology build with Morpheus GraphQL
