@@ -4,4 +4,5 @@ packages:
   - .
 
 extra-deps:
-  - morpheus-graphql-0.0.1
+  - github: morpheusgraphql/morpheus-graphql
+    commit: aaf625ebfff787352bb29cc4a341804f898afdea

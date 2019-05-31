@@ -3,6 +3,7 @@
 {-# LANGUAGE DeriveGeneric         #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE OverloadedStrings     #-}
+{-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE TypeOperators         #-}
 
 module Mythology.Schema.Query
@@ -11,13 +12,14 @@ module Mythology.Schema.Query
 where
 
 import           Data.Morpheus.Kind             ( GQLArgs
-                                                , GQLKind(..)
-                                                , GQLObject
+                                                , GQLType(..)
                                                 , GQLQuery
+                                                , KIND
+                                                , OBJECT
                                                 )
-import           Data.Morpheus.Wrapper          ( (::->)(..) )
+import           Data.Morpheus.Types            ( (::->)
+                                                , Resolver(..) )
 import           Data.Text                      ( Text )
-import           Data.Typeable                  ( Typeable )
 import           GHC.Generics                   ( Generic )
 import           Files.Files                    ( allDBEntry
                                                 , lookupDBEntry
@@ -34,10 +36,10 @@ data Deity = Deity
   , power    :: Maybe Text -- Nullable Field
   , role     :: Text
   , governs  :: Maybe Text
-  } deriving (Generic, GQLObject, Typeable,FromJSON)
+  } deriving (Generic, GQLType, FromJSON)
 
-instance GQLKind Deity where
-  description _ = "A supernatural being considered divine and sacred"
+type instance KIND Deity = OBJECT
+
 
 data DeityArgs = DeityArgs
   { name      :: Text -- Required Argument
