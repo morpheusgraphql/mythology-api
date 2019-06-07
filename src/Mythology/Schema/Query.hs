@@ -11,13 +11,13 @@ module Mythology.Schema.Query
   )
 where
 
-import           Data.Morpheus.Kind             ( GQLArgs
-                                                , GQLType(..)
-                                                , GQLQuery
-                                                , KIND
+import           Data.Morpheus.Kind             ( KIND
                                                 , OBJECT
                                                 )
 import           Data.Morpheus.Types            ( (::->)
+                                                , GQLArgs
+                                                , GQLType(..)
+                                                , GQLQuery
                                                 , Resolver(..) )
 import           Data.Text                      ( Text )
 import           GHC.Generics                   ( Generic )
