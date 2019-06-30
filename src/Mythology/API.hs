@@ -12,14 +12,14 @@ import           Data.Text                      ( Text
                                                 )
 import           Data.ByteString.Lazy           ( ByteString )
 import           Data.Morpheus                  ( interpreter )
-import           Data.Morpheus.Wrapper          ( GQLRoot(..) )
+import           Data.Morpheus.Types            ( GQLRootResolver(..) )
 import qualified Data.ByteString.Lazy.Char8    as C
 import           Mythology.Schema.Query         ( resolveQuery )
 
 
 mythologyApiByteString :: ByteString -> IO ByteString
 mythologyApiByteString =
-    interpreter GQLRoot { query = resolveQuery, mutation = () }
+    interpreter GQLRootResolver { queryResolver = resolveQuery, mutationResolver = (), subscriptionResolver = () }
 
 mythologyApi :: Text -> IO Text
 mythologyApi text =
