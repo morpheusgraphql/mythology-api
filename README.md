@@ -14,6 +14,8 @@ npm start
 
 ```
 
+after that, you cent check it out on `http://localhost:3000/`
+
 ```GraphQL
 query GetDeity {
   deity (name: "Morpheus") {
