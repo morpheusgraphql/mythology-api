@@ -1,24 +1,22 @@
 {-# LANGUAGE DeriveAnyClass        #-}
-{-# LANGUAGE DeriveDataTypeable    #-}
 {-# LANGUAGE DeriveGeneric         #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE TypeFamilies          #-}
 {-# LANGUAGE TypeOperators         #-}
 
 module Mythology.Schema.Query
   ( resolveQuery
+  , Query
   )
 where
 
 import           Data.Morpheus.Kind             ( KIND
                                                 , OBJECT
                                                 )
-import           Data.Morpheus.Types            ( (::->)
-                                                , GQLArgs
-                                                , GQLType(..)
-                                                , GQLQuery
-                                                , Resolver(..) )
+import           Data.Morpheus.Types            ( GQLType(..)
+                                                , ResM
+                                                , gqlResolver
+                                                )
 import           Data.Text                      ( Text )
 import           GHC.Generics                   ( Generic )
 import           Files.Files                    ( allDBEntry
@@ -27,9 +25,9 @@ import           Files.Files                    ( allDBEntry
 import           Data.Aeson                     ( FromJSON )
 
 data Query = Query
-  { deity :: DeityArgs ::-> Deity,
-    deities :: ()      ::-> [Deity]
-  } deriving (Generic, GQLQuery)
+  { deity :: DeityArgs -> ResM Deity,
+    deities :: ()     -> ResM [Deity]
+  } deriving (Generic)
 
 data Deity = Deity
   { fullName :: Text -- Non-Nullable Field
@@ -44,13 +42,13 @@ type instance KIND Deity = OBJECT
 data DeityArgs = DeityArgs
   { name      :: Text -- Required Argument
   , mythology :: Maybe Text -- Optional Argument
-  } deriving (Generic, GQLArgs)
+  } deriving (Generic)
 
-resolveDeity :: DeityArgs ::-> Deity
-resolveDeity = Resolver $ \args -> lookupDBEntry (name args)
+resolveDeity :: DeityArgs -> ResM Deity
+resolveDeity args = gqlResolver $ lookupDBEntry (name args)
 
-resolveDeities :: () ::-> [Deity]
-resolveDeities = Resolver $ const allDBEntry
+resolveDeities :: () -> ResM [Deity]
+resolveDeities _ = gqlResolver $ allDBEntry
 
 resolveQuery :: Query
 resolveQuery = Query { deity = resolveDeity, deities = resolveDeities }
