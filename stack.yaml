@@ -5,4 +5,4 @@ packages:
 
 extra-deps:
   - megaparsec-7.0.5
-  - morpheus-graphql-0.1.0
+  - morpheus-graphql-0.1.1
