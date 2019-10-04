@@ -7,3 +7,4 @@ graphql
 **/.DS_Store
 .serverless/
 dist/
+.idea/**/**
