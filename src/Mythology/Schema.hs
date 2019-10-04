@@ -1,30 +1,30 @@
-{-# LANGUAGE DeriveAnyClass        #-}
 {-# LANGUAGE DeriveGeneric         #-}
+{-# LANGUAGE FlexibleContexts      #-}
+{-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE NamedFieldPuns        #-}
+{-# LANGUAGE OverloadedStrings     #-}
 {-# LANGUAGE QuasiQuotes           #-}
+{-# LANGUAGE ScopedTypeVariables   #-}
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
-{-# LANGUAGE TypeOperators         #-}
 
-module Mythology.Schema.Query
+module Mythology.Schema
   ( resolveQuery
   , Query
   ) where
 
-import           Data.Aeson             (FromJSON)
-import           Data.Morpheus.Document (gqlDocumentWithNamespcace)
-import           Data.Morpheus.Kind     (KIND, OBJECT)
-import           Data.Morpheus.Types    (GQLType (..), ResM, gqlResolver)
+import           Data.Morpheus.Document (gqlDocument)
+import           Data.Morpheus.Types    (IORes, resolver)
 import           Data.Text              (Text)
 import           Files.Files            (allDBEntry, lookupDBEntry)
-import           GHC.Generics           (Generic)
 
-[gqlDocumentWithNamespace|
+[gqlDocument|
 
 type Query
-  { deity (name: String!, mythology: String ): Deity,
-    deities :: ()     -> ResM [Deity]
-  } deriving (Generic)
+  { deity (name: String!, mythology: String ): Deity
+    deities : [Deity!]!
+  }
 
 type Deity
   { fullName : String!
@@ -34,13 +34,8 @@ type Deity
   }
 |]
 
-type instance KIND Deity = OBJECT
-
-resolveDeity :: DeityArgs -> ResM Deity
-resolveDeity args = gqlResolver $ lookupDBEntry (name args)
-
-resolveDeities :: () -> ResM [Deity]
-resolveDeities _ = gqlResolver allDBEntry
-
-resolveQuery :: Query
-resolveQuery = Query {deity = resolveDeity, deities = resolveDeities}
+resolveQuery :: IORes (Query IORes)
+resolveQuery = pure $ Query {deity, deities}
+  where
+    deity args = resolver $ lookupDBEntry (name args)
+    deities _ = resolver allDBEntry
