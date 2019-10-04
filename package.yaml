@@ -21,7 +21,7 @@ dependencies:
   - containers >= 0.4.2.1 && < 0.7
   - split
   - text
-  - morpheus-graphql
+  - morpheus-graphql >= 0.3.0
 
 library:
   source-dirs: src
