@@ -21,17 +21,20 @@ import           Files.Files            (allDBEntry, lookupDBEntry)
 
 [gqlDocument|
 
-type Query
-  { deity (name: String!, mythology: String ): Deity
-    deities : [Deity!]!
-  }
+  type Query
+    {
+      deity (name: String!, mythology: String ): Deity
+      deities : [Deity!]!
+    }
 
-type Deity
-  { fullName : String!
-  , power    :  String
-  , role     : String!
-  , governs  :  String
-  }
+  type Deity
+    {
+      fullName : String!
+      power    :  String
+      role     : String!
+      governs  :  String
+    }
+
 |]
 
 resolveQuery :: IORes (Query IORes)
