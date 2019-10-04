@@ -17,4 +17,4 @@ mythologyApiByteString :: ByteString -> IO ByteString
 mythologyApiByteString = interpreter rootResolver
 
 mythologyApi :: Text -> IO Text
-mythologyApi text = (pack . C.unpack) <$> mythologyApiByteString ((C.pack . unpack) text)
+mythologyApi text = pack . C.unpack <$> mythologyApiByteString (C.pack $ unpack text)
