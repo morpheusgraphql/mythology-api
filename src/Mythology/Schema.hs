@@ -1,10 +1,8 @@
 {-# LANGUAGE DeriveGeneric         #-}
-{-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE FlexibleInstances     #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NamedFieldPuns        #-}
 {-# LANGUAGE OverloadedStrings     #-}
-{-# LANGUAGE QuasiQuotes           #-}
 {-# LANGUAGE ScopedTypeVariables   #-}
 {-# LANGUAGE TemplateHaskell       #-}
 {-# LANGUAGE TypeFamilies          #-}
@@ -14,31 +12,20 @@ module Mythology.Schema
   , Query
   ) where
 
-import           Data.Morpheus.Document (gqlDocument)
-import           Data.Morpheus.Types    (IORes, resolver)
+import           Data.Morpheus.Document (importGQLDocument)
+import           Data.Morpheus.Types    (IORes, constRes, resolver)
 import           Data.Text              (Text)
 import           Files.Files            (allDBEntry, lookupDBEntry)
 
-[gqlDocument|
-
-  type Query
-    {
-      deity (name: String!, mythology: String ): Deity
-      deities : [Deity!]!
-    }
-
-  type Deity
-    {
-      fullName : String!
-      power    :  String
-      role     : String!
-      governs  :  String
-    }
-
-|]
+importGQLDocument "src/Mythology/schema.gql"
 
 resolveQuery :: IORes (Query IORes)
 resolveQuery = pure $ Query {deity, deities}
   where
-    deity args = resolver $ lookupDBEntry (name args)
+    deity :: DeityArgs -> IORes (Deity IORes)
+    deity DeityArgs {name} = do
+      x <- lookupDBEntry name
+      pure Deity {fullName = constRes ""}
+    ----------------------------------
+    deities :: () -> IORes [Deity IORes]
     deities _ = resolver allDBEntry
