@@ -12,7 +12,7 @@
     "devDependencies": {
         "serverless": "1.33.2",
         "serverless-domain-manager": "2.6.6",
-        "serverless-haskell": "0.8.8",
-        "serverless-offline": "3.30.0"
+        "serverless-haskell": "^0.8.8",
+        "serverless-offline": "^5.3.2"
     }
 }
