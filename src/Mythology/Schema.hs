@@ -24,8 +24,12 @@ resolveQuery = pure $ Query {deity, deities}
   where
     deity :: DeityArgs -> IORes (Deity IORes)
     deity DeityArgs {name} = do
-      x <- lookupDBEntry name
-      pure Deity {fullName = constRes ""}
+      fullName <- resolver $ lookupDBEntry name
+      pure
+        Deity
+          {fullName = constRes fullName, power = constRes (Just ""), role = constRes "", governs = constRes (Just "")}
     ----------------------------------
     deities :: () -> IORes [Deity IORes]
-    deities _ = resolver allDBEntry
+    deities _ = do
+      (x :: [Int]) <- resolver allDBEntry
+      pure []
