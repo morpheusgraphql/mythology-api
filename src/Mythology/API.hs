@@ -5,13 +5,13 @@ module Mythology.API
 import           Data.ByteString.Lazy       (ByteString)
 import qualified Data.ByteString.Lazy.Char8 as C
 import           Data.Morpheus              (interpreter)
-import           Data.Morpheus.Types        (GQLRootResolver (..))
+import           Data.Morpheus.Types        (GQLRootResolver (..), IORes)
 import           Data.Text                  (Text, pack, unpack)
 import           Mythology.Schema           (Query, resolveQuery)
 
-rootResolver :: GQLRootResolver IO Query () ()
+rootResolver :: GQLRootResolver IO () () (Query IORes) () ()
 rootResolver =
-  GQLRootResolver {queryResolver = return resolveQuery, mutationResolver = return (), subscriptionResolver = return ()}
+  GQLRootResolver {queryResolver = resolveQuery, mutationResolver = return (), subscriptionResolver = return ()}
 
 mythologyApiByteString :: ByteString -> IO ByteString
 mythologyApiByteString = interpreter rootResolver
