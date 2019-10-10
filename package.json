@@ -10,9 +10,9 @@
     "author": "",
     "license": "MIT",
     "devDependencies": {
-        "serverless": "1.33.2",
+        "serverless": "1.48.1",
         "serverless-domain-manager": "2.6.6",
-        "serverless-haskell": "^0.8.8",
-        "serverless-offline": "^5.3.2"
+        "serverless-haskell": "0.9.1",
+        "serverless-offline": "5.12.0"
     }
 }
