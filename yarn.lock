@@ -3179,15 +3179,15 @@ serverless-domain-manager@2.6.6:
     aws-sdk "^2.177.0"
     chalk "^2.0.1"
 
-serverless-haskell@^0.8.8:
-  version "0.8.11"
-  resolved "https://registry.yarnpkg.com/serverless-haskell/-/serverless-haskell-0.8.11.tgz#683941f48c396413dec452f8a153c207d239ebe8"
+serverless-haskell@0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/serverless-haskell/-/serverless-haskell-0.9.1.tgz#2b2221132a0e19fe3ad79dc7a6d268fccaae60b0"
   dependencies:
     fs-copy-file-sync "^1.1.1"
     fs-extra "^5.0.0"
     serverless "^1.41.1"
 
-serverless-offline@^5.3.2:
+serverless-offline@5.12.0:
   version "5.12.0"
   resolved "https://registry.yarnpkg.com/serverless-offline/-/serverless-offline-5.12.0.tgz#06fe48d0826c8b6930b9a47789712d6c6b350139"
   dependencies:
