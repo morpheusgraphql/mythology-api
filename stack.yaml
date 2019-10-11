@@ -1,8 +1,5 @@
 resolver: lts-14.1
 
-packages:
-  - .
-allow-newer: true
 extra-deps:
   - morpheus-graphql-0.4.0
   - aeson-1.4.4.0
