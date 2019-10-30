@@ -6,6 +6,6 @@ type Query {
 type Deity {
   fullName: String!
   power: String
-  role: String!
+  role: String! @name
   governs: String
 }
