@@ -14,14 +14,14 @@ description: haskell backend
 
 dependencies:
   - base >= 4.7 && < 5
-  - serverless-haskell
+  - serverless-haskell >= 0.9.1
   - aeson
   - lens
   - bytestring
   - containers >= 0.4.2.1 && < 0.7
   - split
   - text
-  - morpheus-graphql
+  - morpheus-graphql >= 0.8.0
 
 library:
   source-dirs: src

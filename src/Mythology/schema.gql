@@ -1,0 +1,11 @@
+type Query {
+  deity(name: String!, mythology: String): Deity!
+  deities: [Deity!]!
+}
+
+type Deity {
+  name: String!
+  power: String
+  role: String!
+  governs: String
+}

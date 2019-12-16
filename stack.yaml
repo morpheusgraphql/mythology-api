@@ -1,8 +1,10 @@
-resolver: lts-12.0
-
-packages:
-  - .
+resolver: lts-14.1
 
 extra-deps:
-  - megaparsec-7.0.5
-  - morpheus-graphql-0.1.1
+  - morpheus-graphql-0.8.0
+  - aeson-1.4.4.0
+  - time-compat-1.9.2.2
+  - serverless-haskell-0.9.1
+  - amazonka-kinesis-1.6.1
+  - amazonka-core-1.6.1
+  - amazonka-s3-1.6.1
