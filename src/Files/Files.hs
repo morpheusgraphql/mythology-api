@@ -1,7 +1,10 @@
+{-# LANGUAGE DeriveAnyClass #-}
+{-# LANGUAGE DeriveGeneric #-}
 module Files.Files
     ( getJson
     , allDBEntry
     , lookupDBEntry
+    , Deity(..)
     )
 where
 
@@ -18,6 +21,8 @@ import qualified Data.Map                      as M
                                                 ( lookup
                                                 , elems
                                                 )
+import           GHC.Generics                   ( Generic )
+
 
 dbFolder :: String
 dbFolder = "db/"
@@ -45,3 +50,11 @@ lookupDBEntry :: FromJSON a => Text -> IO (Either String a)
 lookupDBEntry key' = do
     lib' <- openDB
     return (lib' >>= lookupNote key')
+
+data Deity = Deity {
+    name :: Text,
+    mythology :: Text,
+    power:: Maybe Text,
+    role:: Text,
+    governs:: Maybe Text
+} deriving (Generic, FromJSON)

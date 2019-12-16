@@ -32,18 +32,17 @@ toQuery :: APIGatewayProxyRequest Text -> Text
 toQuery request = fromMaybe "" (request ^. requestBody)
 
 graphql :: APIGatewayProxyRequest Text -> IO (APIGatewayProxyResponse Text)
-graphql inputString = toResponce <$> (mythologyApi $ toQuery inputString)
+graphql inputString = toResponce <$> mythologyApi (toQuery inputString)
 
-
-customType :: ByteString -> Text -> (APIGatewayProxyResponse Text)
+customType :: ByteString -> Text -> APIGatewayProxyResponse Text
 customType value body = APIGatewayProxyResponse
     { _agprsStatusCode = 200
     , _agprsHeaders    = mempty <> [("content-type", value)]
-    , _agprsBody       = (pure (TextValue body))
+    , _agprsBody       = pure (TextValue body)
     }
 
 htmlClient :: IO (APIGatewayProxyResponse Text)
-htmlClient = customType "text/html" <$> (TIO.readFile "assets/index.html")
+htmlClient = customType "text/html" <$> TIO.readFile "assets/index.html"
 
 api
     :: ByteString
@@ -52,7 +51,6 @@ api
 api "GET"  _       = htmlClient
 api "POST" request = graphql request
 api _      _       = customType "text/html" <$> return "Not allowed Method"
-
 
 route
     :: ByteString

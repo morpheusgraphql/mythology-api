@@ -1,5 +1,6 @@
 {-# LANGUAGE DeriveGeneric         #-}
 {-# LANGUAGE FlexibleInstances     #-}
+{-# LANGUAGE FlexibleContexts      #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE NamedFieldPuns        #-}
 {-# LANGUAGE OverloadedStrings     #-}
@@ -10,26 +11,37 @@
 module Mythology.Schema
   ( resolveQuery
   , Query
-  ) where
+  )
+where
 
-import           Data.Morpheus.Document (importGQLDocument)
-import           Data.Morpheus.Types    (IORes, constRes, resolver)
-import           Data.Text              (Text)
-import           Files.Files            (allDBEntry, lookupDBEntry)
+import           Data.Morpheus.Document         ( importGQLDocument )
+import           Data.Morpheus.Types            ( IORes
+                                                , constRes
+                                                , liftEither
+                                                , ResolveQ
+                                                )
+import           Data.Text                      ( Text )
+import           Files.Files                    ( allDBEntry
+                                                , lookupDBEntry
+                                                )
+import qualified Files.Files                   as DB
+                                                ( Deity(..) )
 
 importGQLDocument "src/Mythology/schema.gql"
 
-resolveQuery :: IORes (Query IORes)
-resolveQuery = pure $ Query {deity, deities}
-  where
-    deity :: DeityArgs -> IORes (Deity IORes)
-    deity DeityArgs {name} = do
-      fullName <- resolver $ lookupDBEntry name
-      pure
-        Deity
-          {fullName = constRes fullName, power = constRes (Just ""), role = constRes "", governs = constRes (Just "")}
-    ----------------------------------
-    deities :: () -> IORes [Deity IORes]
-    deities _ = do
-      (x :: [Int]) <- resolver allDBEntry
-      pure []
+
+transform :: DB.Deity -> Deity (IORes ())
+transform dbDeity = Deity { fullName = constRes (DB.name dbDeity)
+                          , power    = constRes (DB.power dbDeity)
+                          , role     = constRes (DB.role dbDeity)
+                          , governs  = constRes (DB.governs dbDeity)
+                          }
+
+resolveQuery :: Query (IORes ())
+resolveQuery = Query { deity, deities }
+ where
+  deity :: DeityArgs -> ResolveQ () IO Deity
+  deity DeityArgs { name } = transform <$> liftEither (lookupDBEntry name)
+  ----------------------------------
+  deities :: () -> IORes () [Deity (IORes ())]
+  deities _ = map transform <$> liftEither allDBEntry
