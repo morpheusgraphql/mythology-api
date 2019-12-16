@@ -1,7 +1,7 @@
 resolver: lts-14.1
 
 extra-deps:
-  - morpheus-graphql-0.4.0
+  - morpheus-graphql-0.8.0
   - aeson-1.4.4.0
   - time-compat-1.9.2.2
   - serverless-haskell-0.9.1
