@@ -4,7 +4,7 @@ type Query {
 }
 
 type Deity {
-  fullName: String!
+  name: String!
   power: String
   role: String!
   governs: String

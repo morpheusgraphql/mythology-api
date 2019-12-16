@@ -14,7 +14,8 @@ module Mythology.Schema
   )
 where
 
-import           Data.Morpheus.Document         ( importGQLDocument )
+import           Data.Morpheus.Document         ( importGQLDocumentWithNamespace
+                                                )
 import           Data.Morpheus.Types            ( IORes
                                                 , constRes
                                                 , liftEither
@@ -27,21 +28,22 @@ import           Files.Files                    ( allDBEntry
 import qualified Files.Files                   as DB
                                                 ( Deity(..) )
 
-importGQLDocument "src/Mythology/schema.gql"
+importGQLDocumentWithNamespace "src/Mythology/schema.gql"
 
 
 transform :: DB.Deity -> Deity (IORes ())
-transform dbDeity = Deity { fullName = constRes (DB.name dbDeity)
-                          , power    = constRes (DB.power dbDeity)
-                          , role     = constRes (DB.role dbDeity)
-                          , governs  = constRes (DB.governs dbDeity)
+transform dbDeity = Deity { deityName    = constRes (DB.name dbDeity)
+                          , deityPower   = constRes (DB.power dbDeity)
+                          , deityRole    = constRes (DB.role dbDeity)
+                          , deityGoverns = constRes (DB.governs dbDeity)
                           }
 
 resolveQuery :: Query (IORes ())
-resolveQuery = Query { deity, deities }
+resolveQuery = Query { queryDeity, queryDeities }
  where
-  deity :: DeityArgs -> ResolveQ () IO Deity
-  deity DeityArgs { name } = transform <$> liftEither (lookupDBEntry name)
+  queryDeity :: QueryDeityArgs -> ResolveQ () IO Deity
+  queryDeity QueryDeityArgs { queryDeityArgsName } =
+    transform <$> liftEither (lookupDBEntry queryDeityArgsName)
   ----------------------------------
-  deities :: () -> IORes () [Deity (IORes ())]
-  deities _ = map transform <$> liftEither allDBEntry
+  queryDeities :: () -> IORes () [Deity (IORes ())]
+  queryDeities _ = map transform <$> liftEither allDBEntry
